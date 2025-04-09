@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import About from "@/pages/about";
 import "./styles/App.less";
-import Home from "@/pages/home";
 import { useEffect, useState } from "react";
+import Home from "@/pages/home";
+import About from "@/pages/about";
+import Report from "@/pages/report";
 
 const App = () => {
   const [init, setInit] = useState(false);
@@ -44,6 +45,10 @@ const App = () => {
         <Route
           path="/about"
           element={<About />}
+        />
+        <Route
+          path="/report"
+          element={<Report />}
         />
       </Routes>
     </BrowserRouter>

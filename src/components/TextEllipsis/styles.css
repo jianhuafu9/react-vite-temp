@@ -1,0 +1,13 @@
+.text-ellipsis {
+  line-height: 1.5;
+}
+
+.text-ellipsis-suffix {
+  white-space: nowrap;
+}
+
+.text-ellipsis-action {
+  white-space: nowrap;
+  color: #409eff;
+  cursor: pointer;
+}
