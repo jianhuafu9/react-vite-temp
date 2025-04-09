@@ -1,0 +1,120 @@
+.traffic-light-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto;
+  width: 100%;
+  max-width: 300px;
+}
+
+.traffic-light {
+  background-color: #333;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 120px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.light {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #222;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.light.active {
+  opacity: 1;
+  box-shadow: 0 0 20px;
+}
+
+.red {
+  background-color: #ff0000;
+}
+
+.red.active {
+  box-shadow: 0 0 20px #ff0000;
+}
+
+.yellow {
+  background-color: #ffff00;
+}
+
+.yellow.active {
+  box-shadow: 0 0 20px #ffff00;
+}
+
+.green {
+  background-color: #00ff00;
+}
+
+.green.active {
+  box-shadow: 0 0 20px #00ff00;
+}
+
+.traffic-light-controls {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.timer {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f0f0f0;
+  padding: 5px 15px;
+  border-radius: 5px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.control-button {
+  padding: 8px 20px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.control-button:hover {
+  background-color: #3a80d2;
+}
+
+.control-button:active {
+  transform: scale(0.98);
+}
+
+/* 添加交通灯杆 */
+.traffic-light:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 10px;
+  height: 50px;
+  background-color: #333;
+  transform: translateX(-50%);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .traffic-light {
+    width: 100px;
+  }
+  
+  .light {
+    width: 70px;
+    height: 70px;
+  }
+}
