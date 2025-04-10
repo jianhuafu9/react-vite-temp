@@ -1,13 +1,14 @@
-.text-ellipsis {
+.custom-text-ellipsis {
   line-height: 1.5;
 }
 
-.text-ellipsis-suffix {
+.custom-text-ellipsis-suffix {
   white-space: nowrap;
+  padding-left: 4px;
 }
 
-.text-ellipsis-action {
+.custom-text-ellipsis-action {
   white-space: nowrap;
-  color: #409eff;
+  color: #0891b2;
   cursor: pointer;
 }

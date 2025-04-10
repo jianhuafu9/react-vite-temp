@@ -34,7 +34,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
   const actionText = isExpand ? collapseText : expandText;
 
   // 将值转换为数字
-  const toNum = (val: any): number => {
+  const toNum = (val: string): number => {
     if (!val) return 0;
     return parseFloat(val);
   };
@@ -101,14 +101,19 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
           const htmlWithoutTags = content.replace(tagRegex, "");
 
           // 存储标签位置信息
-          const tagPositions: { index: number; tag: string }[] = [];
+          const tagPositions: { index: number; tag: string; isSelfClosing: boolean }[] = [];
           let match;
           const tempRegex = /<[^>]+>/g;
 
           while ((match = tempRegex.exec(content)) !== null) {
+            // 检查是否是自闭合标签 (如 <br/>, <img/>, <hr/>)
+            const isSelfClosing = /\/>$/.test(match[0]) || 
+                                 /^<(br|hr|img|input|link|meta|area|base|col|embed|keygen|param|source|track|wbr)(\s|>)/i.test(match[0]);
+            
             tagPositions.push({
               index: match.index,
               tag: match[0],
+              isSelfClosing
             });
           }
 
@@ -143,17 +148,21 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
 
             // 添加所有未闭合的标签
             const openTags = [];
-            const tagRegex = /<(\w+)[^>]*>/g;
-            const closingTagRegex = /<\/(\w+)[^>]*>/g;
+            // 修改正则表达式以排除自闭合标签
+            const tagRegex = /<([a-zA-Z][a-zA-Z0-9]*)(?![^>]*\/>)[^>]*>/g;
+            const closingTagRegex = /<\/([a-zA-Z][a-zA-Z0-9]*)[^>]*>/g;
 
             let tagMatch;
             while ((tagMatch = tagRegex.exec(currentText)) !== null) {
-              const tagName = tagMatch[1];
-              openTags.push(tagName);
+              const tagName = tagMatch[1].toLowerCase();
+              // 排除自闭合标签
+              if (!['br', 'hr', 'img', 'input', 'link', 'meta', 'area', 'base', 'col', 'embed', 'keygen', 'param', 'source', 'track', 'wbr'].includes(tagName)) {
+                openTags.push(tagName);
+              }
             }
 
             while ((tagMatch = closingTagRegex.exec(currentText)) !== null) {
-              const tagName = tagMatch[1];
+              const tagName = tagMatch[1].toLowerCase();
               const index = openTags.lastIndexOf(tagName);
               if (index !== -1) {
                 openTags.splice(index, 1);
@@ -201,28 +210,30 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
 
           // 添加所有未闭合的标签
           const openTags = [];
-          const tagRegex2 = /<(\w+)[^>]*>/g;
-          const closingTagRegex2 = /<\/(\w+)[^>]*>/g;
+          // 修改正则表达式以排除自闭合标签
+          const tagRegex2 = /<([a-zA-Z][a-zA-Z0-9]*)(?![^>]*\/>)[^>]*>/g;
+          const closingTagRegex2 = /<\/([a-zA-Z][a-zA-Z0-9]*)[^>]*>/g;
 
           let tagMatch2;
           while ((tagMatch2 = tagRegex2.exec(finalHtml)) !== null) {
-            const tagName = tagMatch2[1];
-            openTags.push(tagName);
+            const tagName = tagMatch2[1].toLowerCase();
+            // 排除自闭合标签
+            if (!['br', 'hr', 'img', 'input', 'link', 'meta', 'area', 'base', 'col', 'embed', 'keygen', 'param', 'source', 'track', 'wbr'].includes(tagName)) {
+              openTags.push(tagName);
+            }
           }
 
           while ((tagMatch2 = closingTagRegex2.exec(finalHtml)) !== null) {
-            const tagName = tagMatch2[1];
+            const tagName = tagMatch2[1].toLowerCase();
             const index = openTags.lastIndexOf(tagName);
             if (index !== -1) {
               openTags.splice(index, 1);
             }
           }
-
           // 添加未闭合标签的关闭标签
           for (let i = openTags.length - 1; i >= 0; i--) {
             finalHtml += `</${openTags[i]}>`;
           }
-
           return finalHtml;
         } else {
           // 纯文本内容处理
@@ -245,7 +256,6 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
               r = mid - 1;
             }
           }
-
           return content.slice(0, Math.max(0, res));
         }
       };
@@ -289,7 +299,7 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
 
   return (
     <div
-      className="text-ellipsis"
+      className="custom-text-ellipsis"
       ref={boxElRef}
     >
       {html ? (
@@ -301,12 +311,12 @@ const TextEllipsis: React.FC<TextEllipsisProps> = ({
       )}
       {isEll && (
         <span
-          className="text-ellipsis-suffix"
+          className="custom-text-ellipsis-suffix"
           ref={actionElRef}
         >
           {!isExpand && dot}
           <span
-            className="text-ellipsis-action"
+            className="custom-text-ellipsis-action"
             onClick={onActionClick}
           >
             {renderChildren()}
