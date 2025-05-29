@@ -56,4 +56,5 @@ jobs:
       with:
         branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
         folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
+        token: ${{ secrets.GITHUB_TOKEN }} # 部署时使用的GitHub Token
         clean: true # 在部署前清理目标分支
