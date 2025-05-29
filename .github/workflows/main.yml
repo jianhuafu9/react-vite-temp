@@ -1,0 +1,59 @@
+name: 静态资源服务器 CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+      
+    - name: 设置 Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: 安装 pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: false
+        
+    - name: 获取 pnpm 缓存目录
+      id: pnpm-cache
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+        
+    - name: 设置 pnpm 缓存
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+          
+    - name: 下载依赖
+      run: pnpm install
+      
+    - name: 构建项目
+      run: pnpm run build
+      
+    - name: 部署
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
+      with:
+        branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
+        folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
+        clean: true # 在部署前清理目标分支
