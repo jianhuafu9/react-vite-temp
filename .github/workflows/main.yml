@@ -23,7 +23,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        # 移除这里的npm缓存配置，因为我们使用pnpm
         
     - name: 安装 pnpm
       uses: pnpm/action-setup@v2
