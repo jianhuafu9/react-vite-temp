@@ -18,38 +18,29 @@ const App = () => {
 
   useEffect(() => {
     if (init) {
-      const version = localStorage.getItem("version");
-      const worker = new Worker("/version.js");
-      worker.postMessage({ type: "start", currentVersion: version });
-      worker.onmessage = (e) => {
-        const data = e.data;
-        if (data.type === "update") {
-          const result = confirm(`页面有更新，${data.versionContent}`);
-          if (result) {
-            localStorage.setItem("version", data.newVersion);
-            window.location.reload();
-          } else {
-            console.log("取消更新:");
-          }
-        }
-      };
+      // const version = localStorage.getItem("version");
+      // const worker = new Worker(new URL("./lib/version.js", import.meta.url));
+      // worker.postMessage({ type: "start", currentVersion: version });
+      // worker.onmessage = (e) => {
+      //   const data = e.data;
+      //   if (data.type === "update") {
+      //     const result = confirm(`页面有更新，${data.versionContent}`);
+      //     if (result) {
+      //       localStorage.setItem("version", data.newVersion);
+      //       window.location.reload();
+      //     } else {
+      //       console.log("取消更新:");
+      //     }
+      //   }
+      // };
     }
   }, [init]);
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/react-vite-temp">
       <Routes>
-        <Route
-          path="/"
-          element={<Home />}
-        />
-        <Route
-          path="/about"
-          element={<About />}
-        />
-        <Route
-          path="/report"
-          element={<Report />}
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </BrowserRouter>
   );

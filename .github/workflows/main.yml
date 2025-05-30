@@ -2,9 +2,9 @@ name: 静态资源服务器 CI/CD
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -15,28 +15,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 检出代码
-      uses: actions/checkout@v3
-    - name: 设置 Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.X
+      - name: 检出代码
+        uses: actions/checkout@v3
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.X
 
-    - name: 安装 pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-        run_install: false
-        
-    - name: install
-      run: pnpm install
-      
-    - name: Build
-      run: pnpm run build
-      
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
-        folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: false
+
+      - name: install
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
+          folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
