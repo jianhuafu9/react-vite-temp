@@ -25,15 +25,15 @@ jobs:
         version: 8
         run_install: false
         
-    - name: 下载依赖
+    - name: install
       run: pnpm install
       
-    - name: 构建项目
+    - name: Build
       run: pnpm run build
       
-    - name: 部署
+    - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
         branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
         folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
-        token: ${{ secrets.GITHUB_TOKEN }} # 部署时使用的GitHub Token
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
