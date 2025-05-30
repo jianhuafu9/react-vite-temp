@@ -1,6 +1,7 @@
 {
   "name": "vite-react-template",
   "version": "0.1.0",
+  "homepage": "https://ianhuafu9.github.io/react-vite-temp",
   "private": true,
   "type": "module",
   "engines": {
