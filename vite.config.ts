@@ -12,6 +12,7 @@ export default defineConfig({
     minify: "terser", // 使用 terser 进行压缩
   },
   publicDir: "public",
+  base: "/react-vite-temp/", // 打包路径
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"), // 使用 @ 作为 src 的别名

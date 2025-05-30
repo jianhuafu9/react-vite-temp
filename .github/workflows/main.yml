@@ -9,6 +9,9 @@ on:
 
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +35,7 @@ jobs:
       run: pnpm run build
       
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4.3.3
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
         folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
