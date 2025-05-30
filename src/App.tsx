@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, HashRouter } from "react-router-dom";
 import "./styles/App.less";
 import { useEffect, useState } from "react";
 import Home from "@/pages/home";
@@ -36,13 +36,13 @@ const App = () => {
     }
   }, [init]);
   return (
-    <BrowserRouter basename="/react-vite-temp">
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/report" element={<Report />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
