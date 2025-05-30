@@ -11,20 +11,14 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
     - name: 检出代码
       uses: actions/checkout@v3
-      
-    - name: 设置 Node.js ${{ matrix.node-version }}
+    - name: 设置 Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
-        # 移除这里的npm缓存配置，因为我们使用pnpm
-        
+        node-version: 16.X
+
     - name: 安装 pnpm
       uses: pnpm/action-setup@v2
       with:
@@ -57,4 +51,3 @@ jobs:
         branch: gh-pages # 部署后提交到的分支（改为gh-pages更符合GitHub Pages的惯例）
         folder: dist # 这里填打包好的目录名称（与vite.config.ts中的outDir一致）
         token: ${{ secrets.GITHUB_TOKEN }} # 部署时使用的GitHub Token
-        clean: true # 在部署前清理目标分支
