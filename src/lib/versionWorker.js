@@ -3,16 +3,17 @@
 let currentVersion = null;
 let pollingInterval = 60000; // 默认轮询间隔为60秒
 let timer = null;
+let path = "/";
 // 监听主线程发送的消息
 self.addEventListener("message", function (e) {
   const data = e.data;
-
   if (data.type === "start") {
     // 初始化轮询
     currentVersion = data.currentVersion;
     if (data.interval) {
       pollingInterval = data.interval;
     }
+    path = data.pathname;
     startPolling();
   } else if (data.type === "stop") {
     // 停止轮询
@@ -51,7 +52,8 @@ function stopPolling() {
 
 // 检查版本
 function checkVersion() {
-  fetch("./version.json?" + new Date().getTime())
+  const url = path + "assets/version.json" + "?t=" + new Date().getTime();
+  fetch(url)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
