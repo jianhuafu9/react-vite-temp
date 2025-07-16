@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import App from "./App";
+
 import "./styles/tailwind.css";
 import "./styles/variables.less";
-import App from "./App";
 // import { createVersionPolling } from "version-polling";
 
 // createVersionPolling({

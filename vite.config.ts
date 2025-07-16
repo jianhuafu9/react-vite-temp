@@ -1,9 +1,8 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
-import tailwindcss from "tailwindcss";
-import autoprefixer from "autoprefixer";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   build: {
@@ -19,9 +18,6 @@ export default defineConfig({
     },
   },
   css: {
-    postcss: {
-      plugins: [tailwindcss(), autoprefixer()],
-    },
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,
@@ -31,6 +27,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    tailwindcss(),
     checker({
       typescript: true,
     }),
